@@ -39,8 +39,8 @@ C13.
 ## Usage
 Simple Shell can be used in interactive and non-interactive modes. See example below.
 Interactive Mode
->
-./hsh
+
+>./hsh
 ($) /bin/ls
 hsh main.c shell.c
 ($)
@@ -48,8 +48,7 @@ hsh main.c shell.c
 $
 
 Non-interactive Mode
->
-$ echo "/bin/ls" | ./hsh
+>$ echo "/bin/ls" | ./hsh
 hsh main.c shell.c test_ls_2
 $
 $ cat test_ls_2
