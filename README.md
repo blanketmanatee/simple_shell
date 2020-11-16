@@ -38,7 +38,8 @@ C13.
 
 ## Usage
 Simple Shell can be used in interactive and non-interactive modes. See example below.
-> Blockquote
+Interactive Mode
+>
 ./hsh
 ($) /bin/ls
 hsh main.c shell.c
@@ -46,7 +47,8 @@ hsh main.c shell.c
 ($) exit
 $
 
-> Blockquote
+Non-interactive Mode
+>
 $ echo "/bin/ls" | ./hsh
 hsh main.c shell.c test_ls_2
 $
