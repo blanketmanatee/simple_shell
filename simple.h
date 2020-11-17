@@ -19,7 +19,9 @@ int _putchar(char c);
 void _puts(const char *str);
 char *_strdup(const char *str);
 char *_strstr(const char *haystack, const char *needle);
+int _strlen(char *s);
 char **split_delim(char *, const char *);
 void free_split(char **array);
+void getline_failure(char *line, int n_characters);
 
 #endif

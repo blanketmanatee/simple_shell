@@ -10,8 +10,9 @@ int main(void)
 	while (1)
 	{
 		_puts("$ ");
-
+		errno = 0;
 		n_characters = getline(&line, &len, stdin);
+		getline_failure(line, n_characters);
 		line[n_characters - 1] = '\0';
 		if (n_characters > 1)
 		{

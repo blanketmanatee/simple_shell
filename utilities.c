@@ -43,15 +43,14 @@ char *_strdup(const char *str)
 	int i;
 
 	if (str == 0)
-		return (0);
+		return (NULL);
 
 	while (str[l] != '\0')
 		l++;
 
 	strcopy = malloc(sizeof(char) * (l + 1));
-
 	if (strcopy == 0)
-		return (0);
+		return (NULL);
 
 	for (i = 0; i <= l; ++i)
 		strcopy[i] = str[i];
@@ -86,4 +85,22 @@ char *_strstr(const char *haystack, const char *needle)
 		++haystack;
 	}
 	return (0);
+}
+
+
+/**
+ * _strlen - returns the length of a string
+ * @s: pointer to a char array
+ *
+ * Return: length of string
+ */
+
+int _strlen(char *s)
+{
+	int l = 0;
+
+	while (s[l] != '\0')
+		l++;
+
+	return (l);
 }
