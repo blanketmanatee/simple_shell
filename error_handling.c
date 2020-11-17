@@ -7,7 +7,6 @@
  *
  * Return: none
  */
-
 void getline_failure(char *line, int n_characters)
 {
 	if (n_characters == -1)
@@ -18,4 +17,28 @@ void getline_failure(char *line, int n_characters)
 		_puts("\r");
 		exit(1);
 	}
+}
+
+
+/**
+ * check_command - checks for existence of command and execution permissions
+ * @command: command to check
+ *
+ * Return: 0 on success, 1 if file doesn't exist, 2 if permission denied
+ */
+int check_command(char *command)
+{
+	if (access(command, F_OK) != 0)
+	{
+		_puts(command);
+		_puts(": command not found\n");
+		return (1);
+	}
+	else if (access(command, X_OK) != 0)
+	{
+		_puts(command);
+		_puts(": permission denied\n");
+		return (2);
+	}
+	return (0);
 }

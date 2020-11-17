@@ -5,7 +5,7 @@ int main(void)
 	char *line = NULL;
 	size_t len = 0;
 	ssize_t n_characters;
-	char **array;
+	char **cmd_args;
 
 	while (1)
 	{
@@ -16,16 +16,19 @@ int main(void)
 		line[n_characters - 1] = '\0';
 		if (n_characters > 1)
 		{
-			array = split_delim(line, " ");
+			cmd_args = split_delim(line, " ");
+			if (check_command(cmd_args[0]))
+			{
+				clean_up(&cmd_args, &line);
+				continue;
+			}
 			if (fork() == 0)
-				execve(array[0], array, NULL);
+				execve(cmd_args[0], cmd_args, NULL);
 			else
 			{
 				wait(NULL);
-				free(line);
-				line = NULL;
+				clean_up(&cmd_args, &line);
 			}
-			free_split(array);
 		}
 	}
 	return (0);
@@ -64,4 +67,16 @@ void free_split(char **array)
 	for (i = 0; array[i]; ++i)
 		free(array[i]);
 	free(array);
+}
+
+void clean_up(char ***array, char **line)
+{
+	if (line)
+		free(*line);
+
+	if (array)
+		free_split(*array);
+
+	*line = NULL;
+	*array = NULL;
 }

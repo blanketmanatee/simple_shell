@@ -22,6 +22,8 @@ char *_strstr(const char *haystack, const char *needle);
 int _strlen(char *s);
 char **split_delim(char *, const char *);
 void free_split(char **array);
+void clean_up(char ***aray, char **line);
 void getline_failure(char *line, int n_characters);
+int check_command(char *command);
 
 #endif
