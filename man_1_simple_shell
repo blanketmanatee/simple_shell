@@ -1,0 +1,11 @@
+.TH "Simple Shell" 1 "17 November 2020" "version 1.0"
+.SH NAME
+Simple Shell
+
+.SH SYNOPSIS
+Simple Shell is a LINUX based command line interpreter that provides an interface to execute some commands. 
+.SH DESCRIPTION
+Based on the shell designed by Ken Thompson. A basic command line interpreter executes commands using the PATH of the command in the bin directory. 
+.SH RETURN VALUE
+
+.SH EXAMPLE
