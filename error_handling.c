@@ -56,11 +56,10 @@ void *malloc_or_exit(size_t n)
 	void *result;
 
 	result = malloc(n);
-	if (result)
-		return (result);
-	else
+	if (!result)
 	{
 		perror(NULL);
 		exit(1);
 	}
+	return (result);
 }

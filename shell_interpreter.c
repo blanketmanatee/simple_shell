@@ -1,5 +1,11 @@
 #include "simple.h"
 
+/**
+ * main - displays shell prompt and executes command
+ *
+ * Return: always 0
+ */
+
 int main(void)
 {
 	char *line = NULL;
@@ -37,6 +43,14 @@ int main(void)
 	return (0);
 }
 
+
+/**
+ * split_delim - breaks a string into pieces based on a delimiter
+ * @s: string to split
+ * @delim: delimiter to split string up around
+ *
+ * Return: array of strings
+ */
 char **split_delim(char *s, const char *delim)
 {
 	char *s1, *piece, *ptr;
@@ -63,6 +77,13 @@ char **split_delim(char *s, const char *delim)
 	return (result);
 }
 
+
+/**
+ * free_split - frees arrays of strings
+ * @array: array of strings to be freed
+ *
+ * Return: none
+ */
 void free_split(char **array)
 {
 	int i;
@@ -72,6 +93,14 @@ void free_split(char **array)
 	free(array);
 }
 
+
+/**
+ * clean_up - frees arrays of strings and lines and sets them to null
+ * @array: pointer to array of strings
+ * @line: pointer to a string (line)
+ *
+ * Return: none
+ */
 void clean_up(char ***array, char **line)
 {
 	if (line)
