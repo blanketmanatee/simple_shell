@@ -23,7 +23,10 @@ int main(void)
 				continue;
 			}
 			if (fork() == 0)
+			{
 				execve(cmd_args[0], cmd_args, NULL);
+				perror(NULL);
+			}
 			else
 			{
 				wait(NULL);
@@ -43,7 +46,7 @@ char **split_delim(char *s, const char *delim)
 	for (i = 0, ptr = s; (ptr = _strstr(ptr, delim)); ++i, ++ptr)
 		;
 
-	result = malloc(sizeof(char *) * (i + 2));
+	result = malloc_or_exit(sizeof(char *) * (i + 2));
 
 	s1 = _strdup(s);
 

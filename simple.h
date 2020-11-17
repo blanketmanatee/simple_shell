@@ -25,5 +25,6 @@ void free_split(char **array);
 void clean_up(char ***aray, char **line);
 void getline_failure(char *line, int n_characters);
 int check_command(char *command);
+void *malloc_or_exit(size_t n);
 
 #endif

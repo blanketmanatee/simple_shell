@@ -48,9 +48,7 @@ char *_strdup(const char *str)
 	while (str[l] != '\0')
 		l++;
 
-	strcopy = malloc(sizeof(char) * (l + 1));
-	if (strcopy == 0)
-		return (NULL);
+	strcopy = malloc_or_exit(sizeof(char) * (l + 1));
 
 	for (i = 0; i <= l; ++i)
 		strcopy[i] = str[i];

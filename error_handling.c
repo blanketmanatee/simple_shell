@@ -42,3 +42,25 @@ int check_command(char *command)
 	}
 	return (0);
 }
+
+
+/**
+ * malloc_or_exit - returns malloc'd pointer or exits with error on failure
+ * @n: number of bytes to malloc
+ *
+ * Return: malloc'd pointer or exits with error on failure
+ */
+
+void *malloc_or_exit(size_t n)
+{
+	void *result;
+
+	result = malloc(n);
+	if (result)
+		return (result);
+	else
+	{
+		perror(NULL);
+		exit(1);
+	}
+}
