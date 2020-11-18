@@ -5,17 +5,17 @@
  *
  * Return: always 0
  */
-
 int main(void)
 {
 	char *line = NULL;
 	size_t len = 0;
 	ssize_t n_characters;
-	char **cmd_args;
+	char **cmd_args, *cmd;
 
 	while (1)
 	{
-		_puts("$ ");
+		if (isatty(STDIN_FILENO))
+			_puts("$ ");
 		errno = 0;
 		n_characters = getline(&line, &len, stdin);
 		getline_failure(line, n_characters);
@@ -23,6 +23,12 @@ int main(void)
 		if (n_characters > 1)
 		{
 			cmd_args = split_delim(line, " ");
+			cmd = search_path(cmd_args[0]);
+			if (cmd)
+			{
+				free(cmd_args[0]);
+				cmd_args[0] = cmd;
+			}
 			if (check_command(cmd_args[0]))
 			{
 				clean_up(&cmd_args, &line);
