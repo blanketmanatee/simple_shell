@@ -22,25 +22,34 @@ void getline_failure(char *line, int n_characters)
 
 /**
  * check_command - checks for existence of command and execution permissions
- * @command: command to check
+ * @cmd: command to check
+ * @cmd_args: arguments from user
  *
- * Return: 0 on success, 1 if file doesn't exist, 2 if permission denied
+ * Return: command path or NULL on failure
  */
-int check_command(char *command)
+char *check_command(char *cmd, char **cmd_args)
 {
-	if (access(command, F_OK) != 0)
+	if (!_strstr(cmd_args[0], "/"))
+		cmd = search_path(cmd_args[0]);
+	else
+		cmd = _strdup(cmd_args[0]);
+
+	if (!cmd || access(cmd, F_OK) != 0)
 	{
-		_puts(command);
+		_puts(cmd_args[0]);
 		_puts(": command not found\n");
-		return (1);
+		if (cmd)
+			free(cmd);
+		return (NULL);
 	}
-	else if (access(command, X_OK) != 0)
+	else if (access(cmd, X_OK) != 0)
 	{
-		_puts(command);
+		_puts(cmd);
 		_puts(": permission denied\n");
-		return (2);
+		free(cmd);
+		return (NULL);
 	}
-	return (0);
+	return (cmd);
 }
 
 

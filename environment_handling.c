@@ -23,7 +23,8 @@ char *_getenv(const char *name)
 {
 	char *env;
 
-	if ((env = environ[findenv(name)]))
+	env = environ[findenv(name)];
+	if (env)
 		return (_strstr(env, "=") + 1);
 	return (NULL);
 }

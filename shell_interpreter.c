@@ -23,17 +23,14 @@ int main(void)
 		if (n_characters > 1)
 		{
 			cmd_args = split_delim(line, " ");
-			cmd = search_path(cmd_args[0]);
-			if (cmd)
-			{
-				free(cmd_args[0]);
-				cmd_args[0] = cmd;
-			}
-			if (check_command(cmd_args[0]))
+			cmd = check_command(cmd, cmd_args);
+			if (!cmd)
 			{
 				clean_up(&cmd_args, &line);
 				continue;
 			}
+			free(cmd_args[0]);
+			cmd_args[0] = cmd;
 			if (fork() == 0)
 			{
 				execve(cmd_args[0], cmd_args, NULL);
@@ -94,9 +91,12 @@ void free_split(char **array)
 {
 	int i;
 
-	for (i = 0; array[i]; ++i)
-		free(array[i]);
-	free(array);
+	if (array)
+	{
+		for (i = 0; array[i]; ++i)
+			free(array[i]);
+		free(array);
+	}
 }
 
 

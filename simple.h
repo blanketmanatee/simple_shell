@@ -28,7 +28,7 @@ char **split_delim(char *, const char *);
 void free_split(char **array);
 void clean_up(char ***aray, char **line);
 void getline_failure(char *line, int n_characters);
-int check_command(char *command);
+char *check_command(char *command, char **cmd_args);
 void *malloc_or_exit(size_t n);
 int findenv(const char *name);
 char *_getenv(const char *name);
