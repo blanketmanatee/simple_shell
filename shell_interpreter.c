@@ -7,10 +7,10 @@
  */
 int main(void)
 {
-	char *line = NULL;
+	char **cmd_args, *cmd, *line = NULL;
 	size_t len = 0;
 	ssize_t n_characters;
-	char **cmd_args, *cmd;
+	int ext = -1;
 
 	while (1)
 	{
@@ -23,7 +23,16 @@ int main(void)
 		if (n_characters > 1)
 		{
 			cmd_args = split_delim(line, " ");
-			cmd = check_command(cmd, cmd_args);
+			if (search_builtins(cmd_args, &ext))
+			{
+				if (ext != -1)
+				{
+					clean_up(&cmd_args, &line);
+					exit(ext);
+				}
+				continue;
+			}
+			cmd = check_command(cmd_args);
 			if (!cmd)
 			{
 				clean_up(&cmd_args, &line);
@@ -31,19 +40,23 @@ int main(void)
 			}
 			free(cmd_args[0]);
 			cmd_args[0] = cmd;
-			if (fork() == 0)
-			{
-				execve(cmd_args[0], cmd_args, NULL);
-				perror(NULL);
-			}
-			else
-			{
-				wait(NULL);
-				clean_up(&cmd_args, &line);
-			}
+			run_cmd(cmd_args);
 		}
+		clean_up(&cmd_args, &line);
 	}
 	return (0);
+}
+
+void run_cmd(char **cmd_args)
+{
+	if (fork() == 0)
+	{
+		execve(cmd_args[0], cmd_args, NULL);
+		perror(NULL);
+		exit(1);
+	}
+	else
+		wait(NULL);
 }
 
 

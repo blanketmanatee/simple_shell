@@ -27,8 +27,10 @@ void getline_failure(char *line, int n_characters)
  *
  * Return: command path or NULL on failure
  */
-char *check_command(char *cmd, char **cmd_args)
+char *check_command(char **cmd_args)
 {
+	char *cmd;
+
 	if (!_strstr(cmd_args[0], "/"))
 		cmd = search_path(cmd_args[0]);
 	else
