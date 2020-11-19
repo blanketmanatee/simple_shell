@@ -2,9 +2,16 @@
 
 int search_builtins(char **cmd_args, int *ext)
 {
-	if (!_strcmp(cmd_args[0], "exit"))
+	char *cmd = cmd_args[0];
+
+	if (!_strcmp(cmd, "exit"))
 	{
 		my_exit(cmd_args, ext);
+		return (1);
+	}
+	if (!_strcmp(cmd, "env"))
+	{
+		print_env();
 		return (1);
 	}
 	return (0);
@@ -31,4 +38,15 @@ void my_exit(char **cmd_args, int *ext)
 		return;
 	}
 	*ext = 0;
+}
+
+void print_env(void)
+{
+	int i;
+
+	for (i = 0; environ[i]; ++i)
+	{
+		_puts(environ[i]);
+		_puts("\n");
+	}
 }

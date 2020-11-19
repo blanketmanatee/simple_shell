@@ -34,6 +34,7 @@ char *check_command(char **cmd_args);
 void *malloc_or_exit(size_t n);
 int search_builtins(char **cmd_args, int *ext);
 void my_exit(char **cmd_args, int *ext);
+void print_env(void);
 int findenv(const char *name);
 char *_getenv(const char *name);
 char *search_path(char *command);

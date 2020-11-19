@@ -30,6 +30,7 @@ int main(void)
 					clean_up(&cmd_args, &line);
 					exit(ext);
 				}
+				clean_up(&cmd_args, &line);
 				continue;
 			}
 			cmd = check_command(cmd_args);
