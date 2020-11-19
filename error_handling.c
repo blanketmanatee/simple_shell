@@ -22,7 +22,6 @@ void getline_failure(char *line, int n_characters)
 
 /**
  * check_command - checks for existence of command and execution permissions
- * @cmd: command to check
  * @cmd_args: arguments from user
  *
  * Return: command path or NULL on failure
