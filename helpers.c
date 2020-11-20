@@ -83,13 +83,17 @@ char **split_add(char **pieces, char *add)
 	return (new_pieces);
 }
 
-void split_remove(char **pieces, char *remove)
+int split_remove(char **pieces, char *remove)
 {
+	int ret = 0;
+
 	for (; *pieces && *pieces != remove; ++pieces)
 		;
 	if (*pieces)
-		free(*pieces);
+		ret = 1;
 
 	for (; *pieces; pieces++)
 		pieces[0] = pieces[1];
+
+	return (ret);
 }

@@ -74,3 +74,25 @@ void *malloc_or_exit(size_t n)
 	}
 	return (result);
 }
+
+int env_name_errs(const char *name)
+{
+	int i = 0;
+
+	if (!name || !_strlen(name))
+	{
+		errno = EINVAL;
+		perror("Variable name required");
+		return (-1);
+	}
+	for (i = 0; name[i]; ++i)
+	{
+		if (name[i] == '=')
+		{
+			errno = EINVAL;
+			perror("Variable name cannot contain '='");
+			return (-1);
+		}
+	}
+	return (0);
+}

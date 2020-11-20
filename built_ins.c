@@ -22,6 +22,11 @@ int search_builtins(char **cmd_args, int *ext, char ***env_allocs)
 			_setenv(cmd_args[1], cmd_args[2], env_allocs);
 		return (1);
 	}
+	if (!_strcmp(cmd, "unsetenv"))
+	{
+		_unsetenv(cmd_args[1], env_allocs);
+		return (1);
+	}
 	return (0);
 }
 
@@ -61,30 +66,24 @@ void print_env(void)
 
 int _setenv(const char *name, const char *value, char ***env_allocs)
 {
-	int idx = 0, i = 0, len = 0;
+	int idx = 0, len = 0;
 
-	if (!name || !_strlen(name))
-	{
-		errno = EINVAL;
-		perror("Variable name required");
+	if (env_name_errs(name) == -1)
 		return (-1);
-	}
-	for (i = 0; name[i]; ++i)
-	{
-		if (name[i] == '=')
-		{
-			errno = EINVAL;
-			perror("Variable name cannot contain '='");
-			return (-1);
-		}
-	}
+
 	idx = findenv(name);
 	if (!value)
 		value = "";
 	if (environ[idx])
-		split_remove(*env_allocs, environ[idx]);
+	{
+		char *var = environ[idx];
+
+		split_remove(*env_allocs, var);
+		free(var);
+	}
 	else
 		environ[idx + 1] = NULL;
+
 	len = _strlen(name) + 1 + _strlen(value) + 1;
 
 	environ[idx] = malloc_or_exit(sizeof(char) * len);
@@ -92,5 +91,24 @@ int _setenv(const char *name, const char *value, char ***env_allocs)
 	_strcat(environ[idx], "=");
 	_strcat(environ[idx], value);
 	*env_allocs = split_add(*env_allocs, environ[idx]);
+	return (0);
+}
+
+int _unsetenv(const char *name, char ***env_allocs)
+{
+	int idx = 0;
+
+	if (env_name_errs(name) == -1)
+		return (-1);
+
+	idx = findenv(name);
+	if (environ[idx])
+	{
+		char *var = environ[idx];
+
+		split_remove(environ, var);
+		if (*env_allocs && split_remove(*env_allocs, var))
+			free(var);
+	}
 	return (0);
 }
