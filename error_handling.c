@@ -7,16 +7,17 @@
  *
  * Return: none
  */
-void getline_failure(char *line, int n_characters)
+int getline_failure(int n_characters, int *ext)
 {
 	if (n_characters == -1)
 	{
 		if (errno)
 			perror(NULL);
-		free(line);
 		_puts("\r");
-		exit(1);
+		*ext = 1;
+		return (1);
 	}
+	return (0);
 }
 
 

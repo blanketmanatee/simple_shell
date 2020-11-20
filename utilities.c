@@ -93,9 +93,9 @@ char *_strstr(const char *haystack, const char *needle)
  * Return: length of string
  */
 
-int _strlen(char *s)
+size_t _strlen(const char *s)
 {
-	int l = 0;
+	size_t l = 0;
 
 	while (s[l] != '\0')
 		l++;

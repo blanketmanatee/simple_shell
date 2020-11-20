@@ -32,7 +32,7 @@ int _strcmp(const char *s1, const char *s2)
  * Return: the pointer to dest
  */
 
-char *_strcpy(char *dest, char *src)
+char *_strcpy(char *dest, const char *src)
 {
 	int i, l = 0;
 
@@ -53,7 +53,7 @@ char *_strcpy(char *dest, char *src)
  * Return: pointer to dest
  */
 
-char *_strcat(char *dest, char *src)
+char *_strcat(char *dest, const char *src)
 {
 	int i, dl = 0, sl = 0;
 
@@ -96,4 +96,25 @@ int _atoi(char *s)
 	}
 
 	return (j);
+}
+
+/**
+ * _memcpy - copies memory area
+ * @dest: area to be copied to
+ * @src: area that is copied
+ * @n: number of bytes copied from src
+ *
+ * Return: pointer to dest
+ */
+
+void *_memcpy(void *dest, const void *src, size_t n)
+{
+	unsigned int i;
+	unsigned char *d = dest;
+	const unsigned char *s = src;
+
+	for (i = 0; i < n; ++i)
+		d[i] = s[i];
+
+	return (d);
 }

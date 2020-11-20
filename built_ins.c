@@ -1,6 +1,6 @@
 #include "simple.h"
 
-int search_builtins(char **cmd_args, int *ext)
+int search_builtins(char **cmd_args, int *ext, char ***env_allocs)
 {
 	char *cmd = cmd_args[0];
 
@@ -12,6 +12,14 @@ int search_builtins(char **cmd_args, int *ext)
 	if (!_strcmp(cmd, "env"))
 	{
 		print_env();
+		return (1);
+	}
+	if (!strcmp(cmd, "setenv"))
+	{
+		if (split_len(cmd_args) < 2)
+			_setenv(cmd_args[1], NULL, env_allocs);
+		else
+			_setenv(cmd_args[1], cmd_args[2], env_allocs);
 		return (1);
 	}
 	return (0);
@@ -49,4 +57,40 @@ void print_env(void)
 		_puts(environ[i]);
 		_puts("\n");
 	}
+}
+
+int _setenv(const char *name, const char *value, char ***env_allocs)
+{
+	int idx = 0, i = 0, len = 0;
+
+	if (!name || !_strlen(name))
+	{
+		errno = EINVAL;
+		perror("Variable name required");
+		return (-1);
+	}
+	for (i = 0; name[i]; ++i)
+	{
+		if (name[i] == '=')
+		{
+			errno = EINVAL;
+			perror("Variable name cannot contain '='");
+			return (-1);
+		}
+	}
+	idx = findenv(name);
+	if (!value)
+		value = "";
+	if (environ[idx])
+		split_remove(*env_allocs, environ[idx]);
+	else
+		environ[idx + 1] = NULL;
+	len = _strlen(name) + 1 + _strlen(value) + 1;
+
+	environ[idx] = malloc_or_exit(sizeof(char) * len);
+	_strcpy(environ[idx], name);
+	_strcat(environ[idx], "=");
+	_strcat(environ[idx], value);
+	*env_allocs = split_add(*env_allocs, environ[idx]);
+	return (0);
 }
