@@ -2,7 +2,7 @@
 
 /**
  * getline_failure - handles ctrl + D or getline read failure including EOF
- * @line: line read from getline
+ * @ext: exit code
  * @n_characters: number of chars read from getline (-1 on failure or EOF)
  *
  * Return: none
@@ -31,12 +31,12 @@ char *check_command(char **cmd_args)
 {
 	char *cmd;
 
-	if (!_strstr(cmd_args[0], "/"))
+	if (!_strstr(cmd_args[0], "/"))/*looking for / to determine if full path*/
 		cmd = search_path(cmd_args[0]);
 	else
 		cmd = _strdup(cmd_args[0]);
 
-	if (!cmd || access(cmd, F_OK) != 0)
+	if (!cmd || access(cmd, F_OK) != 0) /*does the file exist*/
 	{
 		_puts(cmd_args[0]);
 		_puts(": command not found\n");
@@ -44,7 +44,7 @@ char *check_command(char **cmd_args)
 			free(cmd);
 		return (NULL);
 	}
-	else if (access(cmd, X_OK) != 0)
+	else if (access(cmd, X_OK) != 0)/*execution permissions*/
 	{
 		_puts(cmd);
 		_puts(": permission denied\n");
@@ -74,6 +74,12 @@ void *malloc_or_exit(size_t n)
 	}
 	return (result);
 }
+
+/**
+ * env_name_errs - set and unset env errors
+ * @name: name
+ * Return: 0 if no erros -1 if error
+ */
 
 int env_name_errs(const char *name)
 {
