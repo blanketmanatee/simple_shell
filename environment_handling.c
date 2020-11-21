@@ -1,5 +1,9 @@
 #include "simple.h"
-
+/**
+ * findenv - gets index of environment variable from existing env
+ * @name: name of variable
+ * Return: index or index of NULL terminator of env
+ */
 int findenv(const char *name)
 {
 	int i = 0;
@@ -18,6 +22,12 @@ int findenv(const char *name)
 	}
 	return (i);
 }
+
+/**
+ * _getenv - returns ptr to value of env variable
+ * @name: name of variable
+ * Return: ptr or NULL
+ */
 
 char *_getenv(const char *name)
 {

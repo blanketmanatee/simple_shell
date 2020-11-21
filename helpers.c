@@ -14,11 +14,12 @@ char **split_delim(char *s, const char *delim)
 	char **result;
 
 	for (i = 0, ptr = s; (ptr = _strstr(ptr, delim)); ++i, ++ptr)
-		;
+		; /*checking string for num of delim to set up space in array*/
 
 	result = malloc_or_exit(sizeof(char *) * (i + 2));
+ /*malloc space for array inc delim and null*/
 
-	s1 = _strdup(s);
+	s1 = _strdup(s); /*duplicates str before strtok to save orig*/
 
 	if (_strstr(s1, delim) == s1 && *delim != ' ')
 		result[j++] = _strdup("");
@@ -26,12 +27,12 @@ char **split_delim(char *s, const char *delim)
 
 	while (piece)
 	{
-		result[j++] = _strdup(piece);
+		result[j++] = _strdup(piece); /*filling array with tokens from str*/
 		piece = strtok(NULL, delim);
 	}
 	result[j] = NULL;
 
-	free(s1);
+	free(s1); /*frees duplicate str*/
 	return (result);
 }
 
@@ -55,14 +56,27 @@ void free_split(char **array)
 }
 
 
-int split_len(char **cmd_args)
+/**
+ * split_len - checks size of array of arrays
+ * @array: array
+ * Return: size of array
+ */
+
+int split_len(char **array)
 {
 	int i;
 
-	for (i = 0; cmd_args[i]; ++i)
+	for (i = 0; array[i]; ++i)
 		;
 	return (i);
 }
+
+/**
+ * split_add - add elements to array of arrays
+ * @pieces: array of array elemts added to
+ * @add: pieces being added
+ * Return: array w added element
+ */
 
 char **split_add(char **pieces, char *add)
 {
@@ -84,6 +98,13 @@ char **split_add(char **pieces, char *add)
 	new_pieces[len + 1] = NULL;
 	return (new_pieces);
 }
+
+/**
+ * split_remove - remove elements
+ * @pieces: array
+ * @remove: element being removed
+ * Return: 0 if fail 1 if success
+ */
 
 int split_remove(char **pieces, char *remove)
 {

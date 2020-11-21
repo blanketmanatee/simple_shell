@@ -1,5 +1,13 @@
 #include "simple.h"
 
+/**
+ * search_builtins - checks if matches builtins
+ * @cmd_args: array of str from cmd line
+ * @ext: exit code
+ * @env_allocs: memory management for env to cleanup before exit
+ * Return: 1 if finds builtin 0 if not
+ */
+
 int search_builtins(char **cmd_args, int *ext, char ***env_allocs)
 {
 	char *cmd = cmd_args[0];
@@ -30,6 +38,13 @@ int search_builtins(char **cmd_args, int *ext, char ***env_allocs)
 	return (0);
 }
 
+/**
+ * my_exit - exits
+ * @cmd_args: command line args
+ * @ext: exit
+ * Return: void
+ */
+
 void my_exit(char **cmd_args, int *ext)
 {
 	int i;
@@ -53,6 +68,11 @@ void my_exit(char **cmd_args, int *ext)
 	*ext = 0;
 }
 
+/**
+ * print_env - print environment
+ * Return: void
+ */
+
 void print_env(void)
 {
 	int i;
@@ -63,6 +83,14 @@ void print_env(void)
 		_puts("\n");
 	}
 }
+
+/**
+ * _setenv - sets new env var or modify existing
+ * @name: name variable
+ * @value: value of variable
+ * @env_allocs: memory that is set for variable
+ * Return: -1 on error 0 on success
+ */
 
 int _setenv(const char *name, const char *value, char ***env_allocs)
 {
@@ -93,6 +121,13 @@ int _setenv(const char *name, const char *value, char ***env_allocs)
 	*env_allocs = split_add(*env_allocs, environ[idx]);
 	return (0);
 }
+
+/**
+ * _unsetenv - deletes env variable
+ * @name: name of variable
+ * @env_allocs: tracks memory for variable
+ * Return: -1 or 0
+ */
 
 int _unsetenv(const char *name, char ***env_allocs)
 {
