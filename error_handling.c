@@ -13,7 +13,8 @@ int getline_failure(int n_characters, int *ext)
 	{
 		if (errno)
 			perror(NULL);
-		_puts("\r");
+		if (isatty(STDIN_FILENO))
+			_puts("\r");
 		*ext = 1;
 		return (1);
 	}

@@ -20,6 +20,8 @@ char **split_delim(char *s, const char *delim)
 
 	s1 = _strdup(s);
 
+	if (_strstr(s1, delim) == s1 && *delim != ' ')
+		result[j++] = _strdup("");
 	piece = strtok(s1, delim);
 
 	while (piece)
