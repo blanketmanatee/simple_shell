@@ -53,7 +53,11 @@ int main(void)
 
 void run_cmd(char **cmd_args, int *ext)
 {
-	if (fork() == 0)
+	pid_t pid = fork();
+
+	if (pid < 0)
+		perror(NULL);
+	if (pid == 0)
 	{
 		execve(cmd_args[0], cmd_args, NULL);
 		perror(NULL);

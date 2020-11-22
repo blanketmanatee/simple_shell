@@ -1,11 +1,11 @@
 #include "simple.h"
 /**
  * search_path - checks if cmd exits in path
- * @command: first element of command arg array
+ * @cmd: first element of command arg array
  * Return: full path if exists null if not
  */
 
-char *search_path(char *command)
+char *search_path(char *cmd)
 {
 	int i = 0, len = 0;
 	char *PATH, *current_path, **whole_path;
@@ -20,11 +20,16 @@ char *search_path(char *command)
 
 	for (i = 0; whole_path[i]; ++i)
 	{
-		len = _strlen(whole_path[i]) + 1 + _strlen(command) + 1;
-		current_path = malloc_or_exit(sizeof(char) * len);
-		_strcpy(current_path, whole_path[i]);
-		_strcat(current_path, "/");
-		_strcat(current_path, command);
+		if (*whole_path[i] == '\0')
+			current_path = _strdup(cmd);
+		else
+		{
+			len = _strlen(whole_path[i]) + 1 + _strlen(cmd) + 1;
+			current_path = malloc_or_exit(sizeof(char) * len);
+			_strcpy(current_path, whole_path[i]);
+			_strcat(current_path, "/");
+			_strcat(current_path, cmd);
+		}
 		if (access(current_path, F_OK) == 0)
 		{
 			free_split(whole_path);
