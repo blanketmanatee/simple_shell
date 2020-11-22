@@ -3,9 +3,15 @@
 Simple Shell
 
 .SH SYNOPSIS
-Simple Shell is a LINUX based command line interpreter that provides an interface to execute some commands. 
+Simple Shell is a UNIX based command line interpreter that provides an interface to execute some commands. 
 .SH DESCRIPTION
 Based on the shell designed by Ken Thompson. A basic command line interpreter executes commands using the PATH of the command in the bin directory. 
 .SH RETURN VALUE
 
 .SH EXAMPLE
+.EE
+./hsh
+$ ls
+man_1_simple_shell shell.h
+$ exit
+.EX
