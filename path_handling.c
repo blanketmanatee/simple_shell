@@ -1,7 +1,7 @@
 #include "simple.h"
 /**
  * search_path - checks if cmd exits in path
- * @command: first element of command arg array
+ * @cmd: first element of command arg array
  * Return: full path if exists null if not
  */
 
