@@ -22,7 +22,7 @@ int search_builtins(char **cmd_args, int *ext, char ***env_allocs)
 		print_env();
 		return (1);
 	}
-	if (!strcmp(cmd, "setenv"))
+	if (!_strcmp(cmd, "setenv"))
 	{
 		if (split_len(cmd_args) < 2)
 			_setenv(cmd_args[1], NULL, env_allocs);
