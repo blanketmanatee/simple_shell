@@ -103,7 +103,7 @@ void run_cmd(char **cmd_args, int *ext, pid_t *child_pid)
 		perror(NULL);
 	if (*child_pid == 0)
 	{
-		execve(cmd_args[0], cmd_args, NULL);
+		execve(cmd_args[0], cmd_args, environ);
 		perror(NULL);
 		*ext = 1;
 	}
