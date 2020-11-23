@@ -4,17 +4,18 @@
  * search_builtins - checks if matches builtins
  * @cmd_args: array of str from cmd line
  * @ext: exit code
- * @env_allocs: memory management for env to cleanup before exit
+ * @env_a: memory management for env to cleanup before exit
+ * @p_ext: exit status from last execution
  * Return: 1 if finds builtin 0 if not
  */
 
-int search_builtins(char **cmd_args, int *ext, char ***env_allocs)
+int search_builtins(char **cmd_args, int *ext, char ***env_a, int p_ext)
 {
 	char *cmd = cmd_args[0];
 
 	if (!_strcmp(cmd, "exit"))
 	{
-		my_exit(cmd_args, ext);
+		my_exit(cmd_args, ext, p_ext);
 		return (1);
 	}
 	if (!_strcmp(cmd, "env"))
@@ -25,14 +26,14 @@ int search_builtins(char **cmd_args, int *ext, char ***env_allocs)
 	if (!_strcmp(cmd, "setenv"))
 	{
 		if (split_len(cmd_args) < 2)
-			_setenv(cmd_args[1], NULL, env_allocs);
+			_setenv(cmd_args[1], NULL, env_a);
 		else
-			_setenv(cmd_args[1], cmd_args[2], env_allocs);
+			_setenv(cmd_args[1], cmd_args[2], env_a);
 		return (1);
 	}
 	if (!_strcmp(cmd, "unsetenv"))
 	{
-		_unsetenv(cmd_args[1], env_allocs);
+		_unsetenv(cmd_args[1], env_a);
 		return (1);
 	}
 	return (0);
@@ -42,10 +43,11 @@ int search_builtins(char **cmd_args, int *ext, char ***env_allocs)
  * my_exit - exits
  * @cmd_args: command line args
  * @ext: exit
+ * @p_ext: exit status from last execution
  * Return: void
  */
 
-void my_exit(char **cmd_args, int *ext)
+void my_exit(char **cmd_args, int *ext, int p_ext)
 {
 	int i;
 	char *raw_code = cmd_args[1];
@@ -59,13 +61,13 @@ void my_exit(char **cmd_args, int *ext)
 				_puts(": ");
 				_puts(raw_code);
 				_puts(": numeric argument required\n");
-				*ext = 1;
+				*ext = 2;
 				return;
 			}
 		*ext = _atoi(raw_code);
 		return;
 	}
-	*ext = 0;
+	*ext = p_ext;
 }
 
 /**

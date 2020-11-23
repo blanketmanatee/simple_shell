@@ -18,7 +18,7 @@
 extern char **environ;
 
 /* shell_interpreter (also includes main)*/
-void run_cmd(char **cmd_args, int *ext, pid_t *child_pid);
+int run_cmd(char **cmd_args, int *ext, pid_t *child_pid);
 void clean_up(char ***array, char **line, char ***env_a, int ext);
 void sigint(int sig);
 int strip_comments(char *line);
@@ -34,8 +34,8 @@ char *check_command(char **cmd_args);
 void *malloc_or_exit(size_t n);
 int env_name_errs(const char *name);
 /* built_ins */
-int search_builtins(char **cmd_args, int *ext, char ***env_allocs);
-void my_exit(char **cmd_args, int *ext);
+int search_builtins(char **cmd_args, int *ext, char ***env_a, int p_ext);
+void my_exit(char **cmd_args, int *ext, int p_ext);
 void print_env(void);
 int _setenv(const char *name, const char *value, char ***env_allocs);
 int _unsetenv(const char *name, char ***env_allocs);

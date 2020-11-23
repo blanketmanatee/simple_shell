@@ -17,7 +17,7 @@ int main(void)
 	char **cmd_args = NULL, *cmd = NULL, **env_a = NULL, *line = NULL;
 	size_t len = 0;
 	ssize_t n_characters = 0;
-	int ext = -1;
+	int ext = -1, p_ext = 0;
 
 	signal(SIGINT, sigint);
 	while (1)
@@ -36,7 +36,7 @@ int main(void)
 			cmd_args = split_delim(line, " ");
 			if (!cmd_args[0])
 				REPROMPT
-			if (search_builtins(cmd_args, &ext, &env_a))
+			if (search_builtins(cmd_args, &ext, &env_a, p_ext))
 				REPROMPT /*if builtin runs w/o execve*/
 			/*check if absolute path, calls search PATH*/
 			cmd = check_command(cmd_args);
@@ -44,7 +44,7 @@ int main(void)
 				REPROMPT
 			free(cmd_args[0]);
 			cmd_args[0] = cmd;
-			run_cmd(cmd_args, &ext, &child_pid);
+			p_ext = run_cmd(cmd_args, &ext, &child_pid);
 			child_pid = -1;
 		}
 		clean_up(&cmd_args, &line, &env_a, ext);
@@ -92,15 +92,20 @@ int strip_comments(char *line)
  * @cmd_args: commnd and args
  * @ext: exit code
  * @child_pid: pid of child process
- * Return: void
+ * Return: exit status
  */
 
-void run_cmd(char **cmd_args, int *ext, pid_t *child_pid)
+int run_cmd(char **cmd_args, int *ext, pid_t *child_pid)
 {
+	int wstatus;
+
 	*child_pid = fork();
 
 	if (*child_pid < 0)
+	{
 		perror(NULL);
+		return (1);
+	}
 	if (*child_pid == 0)
 	{
 		execve(cmd_args[0], cmd_args, environ);
@@ -108,7 +113,11 @@ void run_cmd(char **cmd_args, int *ext, pid_t *child_pid)
 		*ext = 1;
 	}
 	else
-		wait(NULL);
+	{
+		wait(&wstatus);
+		return (WEXITSTATUS(wstatus));
+	}
+	return (1);
 }
 
 
