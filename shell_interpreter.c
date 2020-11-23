@@ -22,17 +22,13 @@ int main(void)
 	signal(SIGINT, sigint);
 	while (1)
 	{
-		printf("top\n");
 		if (isatty(STDIN_FILENO))/*checks for mode*/
 			_puts("$ ");
 		errno = 0;/*resets to check for failure*/
 		n_characters = getline(&line, &len, stdin);
-		printf("before getline failure\n");
 		if (getline_failure(n_characters, &ext)) /*error handling*/
 			clean_up(&cmd_args, &line, &env_a, ext);
-		printf("above null term\n");
 		line[n_characters - 1] = '\0';
-		printf("after null term\n");
 		if (strip_comments(line))
 			REPROMPT
 		if (n_characters > 1)
