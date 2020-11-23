@@ -18,8 +18,9 @@
 extern char **environ;
 
 /* shell_interpreter (also includes main)*/
-void run_cmd(char **cmd_args, int *ext);
+void run_cmd(char **cmd_args, int *ext, pid_t *child_pid);
 void clean_up(char ***array, char **line, char ***env_a, int ext);
+void sigint(int sig);
 /* helpers */
 char **split_delim(char *, const char *);
 void free_split(char **array);

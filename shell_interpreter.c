@@ -1,5 +1,6 @@
 #include "simple.h"
 
+static pid_t child_pid = -1;
 /**
  * main - displays shell prompt and sends command  split executed calls cleanup
  *
@@ -12,6 +13,7 @@ int main(void)
 	ssize_t n_characters = 0;
 	int ext = -1;
 
+	signal(SIGINT, sigint);
 	while (1)
 	{
 		if (isatty(STDIN_FILENO))/*checks for mode*/
@@ -37,7 +39,8 @@ int main(void)
 			}
 			free(cmd_args[0]);
 			cmd_args[0] = cmd;
-			run_cmd(cmd_args, &ext);
+			run_cmd(cmd_args, &ext, &child_pid);
+			child_pid = -1;
 		}
 		clean_up(&cmd_args, &line, &env_a, ext);
 	}
@@ -45,19 +48,41 @@ int main(void)
 }
 
 /**
+ * sigint - handles SIGINT (ctrl + c)
+ * @sig: signal number
+ *
+ * Return: none
+ */
+void sigint(int sig)
+{
+	if (sig == SIGINT)
+	{
+		if (child_pid != -1)
+		{
+			kill(child_pid, SIGINT);
+			if (isatty(STDIN_FILENO))
+				_puts("\n");
+		}
+		if (isatty(STDIN_FILENO))
+			_puts("\n$ ");
+	}
+}
+
+/**
  * run_cmd - execve
  * @cmd_args: commnd and args
  * @ext: exit code
+ * @child_pid: pid of child process
  * Return: void
  */
 
-void run_cmd(char **cmd_args, int *ext)
+void run_cmd(char **cmd_args, int *ext, pid_t *child_pid)
 {
-	pid_t pid = fork();
+	*child_pid = fork();
 
-	if (pid < 0)
+	if (*child_pid < 0)
 		perror(NULL);
-	if (pid == 0)
+	if (*child_pid == 0)
 	{
 		execve(cmd_args[0], cmd_args, NULL);
 		perror(NULL);
