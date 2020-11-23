@@ -1,6 +1,12 @@
 #include "simple.h"
 
 static pid_t child_pid = -1;
+#define REPROMPT \
+{ \
+	clean_up(&cmd_args, &line, &env_a, ext); \
+	continue; \
+}
+
 /**
  * main - displays shell prompt and sends command  split executed calls cleanup
  *
@@ -16,27 +22,30 @@ int main(void)
 	signal(SIGINT, sigint);
 	while (1)
 	{
+		printf("top\n");
 		if (isatty(STDIN_FILENO))/*checks for mode*/
 			_puts("$ ");
 		errno = 0;/*resets to check for failure*/
 		n_characters = getline(&line, &len, stdin);
+		printf("before getline failure\n");
 		if (getline_failure(n_characters, &ext)) /*error handling*/
 			clean_up(&cmd_args, &line, &env_a, ext);
+		printf("above null term\n");
 		line[n_characters - 1] = '\0';
+		printf("after null term\n");
+		if (strip_comments(line))
+			REPROMPT
 		if (n_characters > 1)
 		{
-			cmd_args = split_delim(line, " ");/*if builtin runs w/o execve*/
+			cmd_args = split_delim(line, " ");
+			if (!cmd_args[0])
+				REPROMPT
 			if (search_builtins(cmd_args, &ext, &env_a))
-			{
-				clean_up(&cmd_args, &line, &env_a, ext);
-				continue;
-			}
-			cmd = check_command(cmd_args);/*check if PATH is input calls search path*/
+				REPROMPT /*if builtin runs w/o execve*/
+			/*check if absolute path, calls search PATH*/
+			cmd = check_command(cmd_args);
 			if (!cmd)/*checks for file and execute permissions*/
-			{
-				clean_up(&cmd_args, &line, &env_a, ext);
-				continue;
-			}
+				REPROMPT
 			free(cmd_args[0]);
 			cmd_args[0] = cmd;
 			run_cmd(cmd_args, &ext, &child_pid);
@@ -63,9 +72,23 @@ void sigint(int sig)
 			if (isatty(STDIN_FILENO))
 				_puts("\n");
 		}
-		if (isatty(STDIN_FILENO))
+		else if (isatty(STDIN_FILENO))
 			_puts("\n$ ");
 	}
+}
+
+/**
+ * strip_comments - takes out comments
+ * @line: input from command line
+ * Return: 1 if full line is comment, 0 otherwise
+ */
+
+int strip_comments(char *line)
+{
+	if (*line == '#')
+		return (1);
+	strtok(line, "#");
+	return (0);
 }
 
 /**

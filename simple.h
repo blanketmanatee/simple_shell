@@ -21,6 +21,7 @@ extern char **environ;
 void run_cmd(char **cmd_args, int *ext, pid_t *child_pid);
 void clean_up(char ***array, char **line, char ***env_a, int ext);
 void sigint(int sig);
+int strip_comments(char *line);
 /* helpers */
 char **split_delim(char *, const char *);
 void free_split(char **array);
