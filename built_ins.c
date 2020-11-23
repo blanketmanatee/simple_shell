@@ -50,12 +50,15 @@ int search_builtins(char **cmd_args, int *ext, char ***env_a, int p_ext)
 void my_exit(char **cmd_args, int *ext, int p_ext)
 {
 	int i;
-	char *raw_code = cmd_args[1];
+	char *raw_code = cmd_args[1], c;
 
 	if (raw_code)
 	{
 		for (i = 0; raw_code[i]; ++i)
-			if (raw_code[i] < '0' || raw_code[i] > '9')
+		{
+			c = raw_code[i];
+			if ((c == '-' && i != 0) ||
+			    (c != '-' && (c < '0' || c > '9')))
 			{
 				_puts(cmd_args[0]);
 				_puts(": ");
@@ -64,7 +67,8 @@ void my_exit(char **cmd_args, int *ext, int p_ext)
 				*ext = 2;
 				return;
 			}
-		*ext = _atoi(raw_code);
+		}
+		*ext = _atoi(raw_code) & 0xFF;
 		return;
 	}
 	*ext = p_ext;
