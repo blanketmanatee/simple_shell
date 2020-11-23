@@ -12,10 +12,14 @@ int getline_failure(int n_characters, int *ext)
 	if (n_characters == -1)
 	{
 		if (errno)
+		{
 			perror(NULL);
+			*ext = 1;
+		}
+		else
+			*ext = 0;
 		if (isatty(STDIN_FILENO))
 			_puts("\r");
-		*ext = 1;
 		return (1);
 	}
 	return (0);
