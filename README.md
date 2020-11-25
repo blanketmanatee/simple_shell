@@ -34,14 +34,14 @@ C13.
 <li>malloc_or_exit</li>
 <li>env_name_errs</li></ul>
 <li>signal - used to check for ctrl c signal</li>
-  *main
-* strtok - extracting tokens from strings
-  *split_delim
-  *strip_comments
-* wait - wait status for children to finish their process
-  *run_cmd
-* write - write to stdout for _putchar
-  *_putchar
+<ul><li>main</li></ul>
+<li>strtok - extracting tokens from strings</li>
+<ul><li>split_delim</li>
+<li>strip_comments</li></ul>
+<li>wait - wait status for children to finish their process</li>
+<ul><li>run_cmd</li></ul>
+<li>write - write to stdout for _putchar</li>
+<ul><li>_putchar</li></ul></ul><br>
 ## Usage
 Simple Shell can be used in interactive and non-interactive modes. See example below.
 Interactive Mode
