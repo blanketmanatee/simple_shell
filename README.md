@@ -8,32 +8,32 @@ C13.
 <ul><li> access - used to verify existence of files and permissions</li>
 <ul><li>search_path</li>
 <li>check_command</li>
-</ul></ul>
-* execve - used to execute and fork processes
-  *run_cmd
-* exit - exit the simple shell
-  *search_builtins
-  *my_exit
-* fork - used to create child processes
-  *run_cmd
-* free - free memory
-  *all functions
-* getline - used to read line from input to store in a ptr
-  *main
-* isatty - tests if a fd refers to a terminal
-  *main
-  *sigint
-  *getline_failure
-* kill - kill child process
-  *sigint
-* malloc - allocates memory
-  *all functions
-* perror - prints system error message
-  *run_cmd
-  *getline_failure
-  *malloc_or_exit
-  *env_name_errs
-* signal - used to check for ctrl c signal
+</ul>
+<li>execve - used to execute and fork processes</li>
+<ul><li>run_cmd</li></ul>
+<li>exit - exit the simple shell</li>
+<ul><li>search_builtins</li>
+<li>my_exit</li></ul>
+<li>fork - used to create child processes</li>
+<ul><li>run_cmd</li></ul>
+<li>free - free memory</li>
+<ul><li>all functions</li></ul>
+<li>getline - used to read line from input to store in a ptr</li>
+<ul><li>main</li></ul>
+<li>isatty - tests if a fd refers to a terminal<li>
+<ul><li>main</li>
+<li>sigint</li>
+<li>getline_failure</li></ul>
+<li>kill - kill child process</li>
+<ul><li>sigint</li></ul>
+<li>malloc - allocates memory</li>
+<ul><li>all functions</li></ul>
+<li>perror - prints system error message</li>
+<ul><li>run_cmd</li>
+<li>getline_failure</li>
+<li>malloc_or_exit</li>
+<li>env_name_errs</li></ul>
+<li>signal - used to check for ctrl c signal</li>
   *main
 * strtok - extracting tokens from strings
   *split_delim
