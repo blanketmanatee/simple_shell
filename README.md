@@ -5,9 +5,10 @@ C13.
 ## Description
 
 ## Used Functions and System Calls
-* access - used to verify existence of files and permissions
-    *search_path
-    *check_command
+<ul><li> access - used to verify existence of files and permissions</li>
+<ul><li>search_path</li>
+<li>check_command</li>
+</ul></ul>
 * execve - used to execute and fork processes
   *run_cmd
 * exit - exit the simple shell
